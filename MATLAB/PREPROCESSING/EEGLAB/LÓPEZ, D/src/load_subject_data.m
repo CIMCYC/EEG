@@ -25,25 +25,32 @@ if size(file,1)
         cfg.chantoload);
 %
 elseif cont==0
+
     % Search the .dap file:
     file=dir([subject.raw_dir filesep 'sub*.dap']);
+    subj=[subject.id '.dap'];
 
-    if  [ize(file,1) & (file.name=='sub*.dap')]
+    % If dap file is found, load subject data:
+    if (size(file,1) && strcmp(file.name, subj))
+
         % Load subject data:
         first_sample_to_read = 1;
         data = pop_loadcurry([subject.raw_dir filesep file(1).name]);
 
     else
+
     % Search .set file:
         file = dir([subject.raw_dir filesep 'sub*.set']);
     
+        % If set file is found, load subject data:
         if size(file,1)
-        % Load subject data:
-        data = pop_loadset('filename',file(1).name,...
-            'filepath',subject.raw_dir);
+
+            % Load subject data:
+            data = pop_loadset(subject.raw_dir, file(1).name, first_sample_to_read,...
+                cfg.chantoload);
         else
-        % Send warning:
-        exit([subject.id ' - File not found!']);
+            % Send warning:
+            exit([subject.id ' - File not found!']);
         end
     end
 end
