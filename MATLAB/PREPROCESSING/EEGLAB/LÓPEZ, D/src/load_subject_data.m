@@ -46,8 +46,9 @@ elseif cont==0
         if size(file,1)
 
             % Load subject data:
-            data = pop_loadset(subject.raw_dir, file(1).name, first_sample_to_read,...
-                cfg.chantoload);
+            data = pop_loadset('filename',file(1).name,...
+            'filepath',subject.raw_dir);
+
         else
             % Send warning:
             exit([subject.id ' - File not found!']);
