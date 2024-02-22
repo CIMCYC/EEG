@@ -1,16 +1,19 @@
-%% ELECTROENCEPHALOGRAPHY PREPROCESSING - (config.m)
+% ELECTROENCEPHALOGRAPHY PREPROCESSING - (config.m)
 % -------------------------------------------------------------------------
 % David Lopez-Garcia
 % dlopez@ugr.es
-% CIMCYC - University of granada
+% CIMCYC - University of granadajaj
 % -------------------------------------------------------------------------
 
 % EEG preprocessing configuration file: On this file you can configure all
 % the parameters and steps of your preprocessing routine.
 
-%% Path to BIDS's compatible folder:
+%% Add EEGLAB and SCRIPTS folderst to Matlab path
+addpath(genpath('C:\Users\Usuario\Documents\MATLAB\EEG\EEGLAB\code'))
+addpath(genpath('C:\Users\Usuario\Downloads\eeglab2022'))
 
-cfg.datapath = '/Users/David/Desktop/prueba_bids_eeg';
+%% Path to BIDS's compatible folder:
+cfg.datapath = 'C:\Users\Usuario\Documents\MATLAB\EEG\EEGLAB\test';
 
 %% 0.1 Subjects to load:
 %  By default the preprocessing script loads all the subjects containded in
@@ -19,20 +22,20 @@ cfg.datapath = '/Users/David/Desktop/prueba_bids_eeg';
 
 cfg.subjects = {
      'sub-001';
-%      'sub-002';
-%      'sub-003';
-%      'sub-004';
-%      'sub-005';
-%      'sub-006';
-%      'sub-007';
-%      'sub-008';
-%      'sub-009';
-%      'sub-010';
-%      'sub-011';
-%      'sub-012';
-%      'sub-013';
-%      'sub-014';
-%      'sub-015';
+     'sub-002';
+     'sub-003';
+     'sub-004';
+     'sub-005';
+      'sub-006';
+      'sub-007';
+      'sub-008';
+      'sub-009';
+      'sub-010';
+      'sub-011';
+      'sub-012';
+      'sub-013';
+      'sub-014';
+      'sub-015';
 %      'sub-016';
 %      'sub-017';
 %      'sub-018';
@@ -64,40 +67,40 @@ cfg.chantoload = [];
 %  rejection). e.g. Ocular channels, noisy channels, etc.
 
 cfg.ignoredchannels = {
-    [1 2 3]; % sub-001
-    []; % sub-002
-    []; % sub-003
-    []; % sub-004
-    []; % sub-005
-    []; % sub-006
-    []; % sub-007
-    []; % sub-008
-    []; % sub-009
-    []; % sub-010
-    []; % sub-011
-    []; % sub-012
-    []; % sub-013
-    []; % sub-014
-    []; % sub-015
-    []; % sub-016
-    []; % sub-017
-    []; % sub-018
-    []; % sub-019
-    []; % sub-020
-    []; % sub-021
-    []; % sub-022
-    []; % sub-023
-    []; % sub-024
-    []; % sub-025
-    []; % sub-026
-    []; % sub-027
-    []; % sub-028
-    []; % sub-029
-    []; % sub-030
-    []; % sub-031
-    []; % sub-032
-    []; % sub-033
-    };
+     [59,62]; % sub-001
+     [59,62]; % sub-002
+     [59,62]; % sub-003
+     [59,63]; % sub-004
+     [59,63]; % sub-005
+     [59,63]; % sub-006
+     [59,63]; % sub-007
+     [59,63]; % sub-008
+     [59,63]; % sub-009
+     [59,63]; % sub-010
+     [17,59,63]; % sub-011
+     [59,63]; % sub-012
+     [59,63]; % sub-013
+     [59,63]; % sub-014
+     [59,63]; % sub-015
+%     []; % sub-016
+%     []; % sub-017
+%     []; % sub-018
+%     []; % sub-019
+%     []; % sub-020
+%     []; % sub-021
+%     []; % sub-022
+%     []; % sub-023
+%     []; % sub-024
+%     []; % sub-025
+%     []; % sub-026
+%     []; % sub-027
+%     []; % sub-028
+%     []; % sub-029
+%     []; % sub-030
+%     []; % sub-031
+%     []; % sub-032
+%     []; % sub-033
+     };
 
 %% 1. Resample:
 %  According to Nyquist Theorem your sampling frequency should be at least
@@ -105,10 +108,10 @@ cfg.ignoredchannels = {
 
 % Resampling configuration:
 cfg.resample.flag = true;           % Enable/disable resampling.
-cfg.resample.freq = 256;            % Desired sampling frequency (Hz).
+cfg.resample.freq = 256;            % Desired sampling frequency (Hz).eeg
 
 cfg.resample.save = true;           % Save resampled data.
-cfg.resample.sdir = '01-resampled'; % Destination folder.
+cfg.resample.sdir = 'resampled';    % Destination folder.
 
 %% 2. Filters:
 
@@ -134,19 +137,21 @@ cfg.filter.notch.fnull = [      	% Main freq and its harmonics.
 cfg.filter.plotfreqresp = false;    % Enable/disable.
 
 cfg.filter.save = true;             % Save filtered data.
-cfg.filter.sdir = '02-filtered';    % Destination folder.
+cfg.filter.sdir = 'filtered';    % Destination folder.
 
 %% 3. Extract epochs:
-cfg.epochs.flag = true;             % Enable/disable data epoching.
-cfg.epochs.bounds = [-1 2];         % Trial boundaries in seconds (s).
+cfg.epochs.flag = true;            % Enable/disable data epoching.
+cfg.epochs.bounds = [-.2 2];        % Trial boundaries in seconds (s).
 
 % Specify the trigger id to load.
 % Empty by default: Load the complete dataset.
-cfg.epochs.names = {                % Trial names to extract.
-    };
+cfg.epochs.names = {'PROBE_SEL_ANIM_C','PROBE_SEL_ANIM_S', ...
+                    'PROBE_SEL_INAN_C','PROBE_SEL_INAN_S', ...
+                    'PROBE_INT_ANIM_C','PROBE_INT_ANIM_S', ...
+                    'PROBE_INT_INAN_C','PROBE_INT_INAN_S'};
 
 cfg.epochs.save = true;             % Save epoched data.
-cfg.epochs.sdir = '03-epoched';     % Destination folder.
+cfg.epochs.sdir = 'epoched';     % Destination folder.
 
 %% 4. Independent Component Analysis (ICA):
 % This algorithm is computed ignoring the channel indexes included in
@@ -156,53 +161,54 @@ cfg.epochs.sdir = '03-epoched';     % Destination folder.
 cfg.ica.flag = true;            % Enable/disable ICA decomposition
 cfg.ica.method = 'runica';      % ICA algorithm to use for decomposition.
 cfg.ica.extended = true;        % Recommended.
+cfg.ica.source = 'epoched';
 
 cfg.ica.save = true;            % Save ICA weights.
-cfg.ica.sdir = '04-icaweights'; % Destination folder.
+cfg.ica.sdir = 'icaweights'; % Destination folder.
 
 %% 5. Bad components:
 %  After computing the ICA decomposition the identified artifactual
 %  components per subjects should be specified here.
 
 cfg.ica.badcomponents.flag = true;  % Enable/dis. remove artifactual comp.
-cfg.ica.badcomponents.delete = {    % Indexes to remove per subject.
-    [1 2 3]; % sub-001
-    []; % sub-002
-    []; % sub-003
-    []; % sub-004
-    []; % sub-005
-    []; % sub-006
-    []; % sub-007
-    []; % sub-008
-    []; % sub-009
-    []; % sub-010
-    []; % sub-011
-    []; % sub-012
-    []; % sub-013
-    []; % sub-014
-    []; % sub-015
-    []; % sub-016
-    []; % sub-017
-    []; % sub-018
-    []; % sub-019
-    []; % sub-020
-    []; % sub-021
-    []; % sub-022
-    []; % sub-023
-    []; % sub-024
-    []; % sub-025
-    []; % sub-026
-    []; % sub-027
-    []; % sub-028
-    []; % sub-029
-    []; % sub-030
-    []; % sub-031
-    []; % sub-032
-    []; % sub-033
+cfg.ica.badcomponents.delete = {     % Indexes to remove per subject.
+    [1,8]; % sub-001
+    [1]; % sub-002
+    [2,6]; % sub-003
+    [4]; % sub-004
+    [1,5]; % sub-005
+    [1,2,6]; % sub-006
+    [2,8]; % sub-007
+    [2,14]; % sub-008
+    [3]; % sub-009
+    [2]; % sub-010
+    [1,2]; % sub-011
+    [1,2]; % sub-012
+    [1,2,3]; % sub-013
+    [3,6]; % sub-014
+    [1,6]; % sub-015
+%     []; % sub-016
+%     []; % sub-017
+%     []; % sub-018
+%     []; % sub-019
+%     []; % sub-020
+%     []; % sub-021
+%     []; % sub-022
+%     []; % sub-023
+%     []; % sub-024
+%     []; % sub-025
+%     []; % sub-026
+%     []; % sub-027
+%     []; % sub-028
+%     []; % sub-029
+%     []; % sub-030
+%     []; % sub-031
+%     []; % sub-032
+%     []; % sub-033
     };
 
 cfg.ica.badcomponents.save = true;              % Save ICA pruned data.
-cfg.ica.badcomponents.sdir = '05-icapruned';    % Destination folder.
+cfg.ica.badcomponents.sdir = 'icapruned';    % Destination folder.
 
 %% 6. Trial rejection:
 %  Select the automatic trial rejection processes to compute:
@@ -229,17 +235,17 @@ cfg.trialrej.extrval.uplim = 150;       % Upper voltage limit.
 cfg.trialrej.extrval.lolim = -150;      % Lower voltage limit
 
 cfg.trialrej.save = true;               % Save trial pruned data.
-cfg.trialrej.sdir = '06-trialpruned';   % Destination folder.
+cfg.trialrej.sdir = 'trialpruned';   % Destination folder.
 
 %% 7. Electrodes to interpole:
 %  Cell array of electrodes to interpole for each subject must be specified
 %  in cfg.interpole.channels.
 
-cfg.interpole.flag = true;              % Enable/disable interpolation.
+cfg.interpole.flag = false;              % Enable/disable interpolation.
 cfg.interpole.metohd = 'spherical';     % Interpolation method.
 
 cfg.interpole.channels = {
-    [1 2 3]; % sub-001
+    []; % sub-001
     []; % sub-002
     []; % sub-003
     []; % sub-004
@@ -249,33 +255,33 @@ cfg.interpole.channels = {
     []; % sub-008
     []; % sub-009
     []; % sub-010
-    []; % sub-011
+    [17]; % sub-011
     []; % sub-012
     []; % sub-013
     []; % sub-014
     []; % sub-015
-    []; % sub-016
-    []; % sub-017
-    []; % sub-018
-    []; % sub-019
-    []; % sub-020
-    []; % sub-021
-    []; % sub-022
-    []; % sub-023
-    []; % sub-024
-    []; % sub-025
-    []; % sub-026
-    []; % sub-027
-    []; % sub-028
-    []; % sub-029
-    []; % sub-030
-    []; % sub-031
-    []; % sub-032
-    []; % sub-033
+%     []; % sub-016
+%     []; % sub-017
+%     []; % sub-018
+%     []; % sub-019
+%     []; % sub-020
+%     []; % sub-021
+%     []; % sub-022
+%     []; % sub-023
+%     []; % sub-024
+%     []; % sub-025
+%     []; % sub-026
+%     []; % sub-027
+%     []; % sub-028
+%     []; % sub-029
+%     []; % sub-030
+%     []; % sub-031
+%     []; % sub-032
+%     []; % sub-033
     };
 
 cfg.interpole.save = true;              % Save interpoled data.
-cfg.interpole.sdir = '07-interpoled';   % Destination folder.
+cfg.interpole.sdir = 'interpoled';   % Destination folder.
 
 %% 8. Reference electrode and re-reference:
 %  Recover the reference electrode manually and compute re-reference.
@@ -287,7 +293,7 @@ cfg.refelec.chan  = 64;         % Channel number.
 cfg.refelec.label = 'FCz';      % Channel label.
 cfg.refelec.type  = 'REF';      % Channel type.
 
-% Polar coordinates:
+% Polar coordinates: 
 cfg.refelec.theta  = 0;
 cfg.refelec.radius = 0.125; 
 
@@ -306,52 +312,44 @@ cfg.reref.flag = true;          % Enable/disable data re-reference.
 cfg.reref.chan = [];            % New reference electrore - [] = average.
 
 cfg.reref.save = true;                  % Save re-referenced data.
-cfg.reref.sdir = '08-rereferenced';     % Destination folder.
+cfg.reref.sdir = 'rereferenced';     % Destination folder.
 
 %% 9. Extract conditions:
 %  Condition to extract:
 
 cfg.conditions.flag = true;           % Enable/disable cond. extraction.
 cfg.conditions.baseline.flag = true;  % Enable/disable baseline correction.
-cfg.conditions.baseline.w = [-200 0]; % Baseline boundaries in milisec.
+cfg.conditions.baseline.w = [-199 0]; % Baseline boundaries in milisec.
 
 cfg.conditions.report = true;         % Enable/disable conditions report.
 
 % Specify condition names to extrac:
-cfg.conditions.names{1} = 'target-congruent-correct';
-cfg.conditions.names{2} = 'target-congruent-forced-correct';
-cfg.conditions.names{3} = 'target-congruent-easy-forced-correct'; % ...
-
+cfg.conditions.names{1} = 'PROBE_INT';
+cfg.conditions.names{2} = 'PROBE_SEL';
 
 % Each condition could contain different triggers:
 
 cfg.conditions.triggers{1} = { % Triggers to extract for condition 1
-    'TARGET_CRC_FOR_C'
-    'TARGET_CLC_FOR_C'
-    'TARGET_CRI_FOR_C'
-    'TARGET_CLI_FOR_C'
-    'TARGET_CRC_VOL_C'
-    'TARGET_CLC_VOL_C'
-    'TARGET_CRI_VOL_C'
-    'TARGET_CLI_VOL_C'
-    };
+    'PROBE_INT_ANIM_C', ...
+    'PROBE_INT_ANIM_S', ...
+    'PROBE_INT_INAN_C', ...
+    'PROBE_INT_INAN_S'};
 
 cfg.conditions.triggers{2} = { % Triggers to extract for condition 2
-    'TARGET_CRC_FOR_C'
-    'TARGET_CLC_FOR_C'
-    'TARGET_CRI_FOR_C'
-    'TARGET_CLI_FOR_C'
-    };
-
-cfg.conditions.triggers{3} = { % Triggers to extract for condition 3
-    'TARGET_CRC_FOR_C'
-    'TARGET_CLC_FOR_C'
-    };
+    'PROBE_SEL_ANIM_C', ...
+    'PROBE_SEL_ANIM_S', ...
+    'PROBE_SEL_INAN_C', ...
+    'PROBE_SEL_INAN_S'};
 
 cfg.conditions.save = true;             % Save extracted conditions.
-cfg.conditions.sdir = '09-conditions';  % Destination folder.
+cfg.conditions.sdir = 'conditions';  % Destination folder.
 
 %% Other parameters:
 
 cfg.rename = true;          % Rename events.
-cfg.saveformat = 'set';     % Outpud data format: 'mat'-'set'-'both'
+cfg.match  = true; 
+cfg.saveformat = {'both'};  % Outpud data format: 'mat'-'set'-'both'
+
+
+%% Experimental parameters
+cfg.exp.nblocks = 24;
