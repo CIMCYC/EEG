@@ -5,7 +5,10 @@ function prep_remove_components(cfg,subject)
 % dlopez@ugr.es
 % CIMCYC - University of granada
 % -------------------------------------------------------------------------
-%
+% Some changes to export to BIDS format made by:
+% María Ruiz and María del Pilar Sánchez
+% mariaruizromero@ugr.es, pilarsanpe@ugr.es
+% -------------------------------------------------------------------------
 % This function removes the identified artifactual components after ICA
 % decomposition:
 
@@ -14,10 +17,17 @@ if cfg.ica.badcomponents.flag
     fprintf(['\n<strong> > Loading subject: ' subject.id '</strong>\n\n']);
     
     % Directory to load data:
-    load_dir = [cfg.datapath filesep 'derivatives' filesep ...
-        cfg.ica.sdir filesep];
-    files = dir([load_dir subject.id '*.set']);
-    file_name = files(1).name;
+    load_dir = [cfg.datapath filesep 'derivatives' filesep  subject.id  ...
+        filesep 'eeg'];
+    if (strcmp(cfg.datapath, cfg.datapathraw))
+        files = dir([load_dir filesep subject.id '_' cfg.ica.sdir '.set']);
+        file_name = files(1).name;
+
+    else
+        files = dir([load_dir filesep subject.id '_' cfg.task '_' cfg.ica.sdir '.set']);
+        file_name = files(1).name;
+        
+    end
     
     % Select subject idx:
     subject_idx = str2double(subject.id(end-2:end));

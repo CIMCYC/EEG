@@ -5,19 +5,22 @@ function prep_computeica(cfg,subject)
 % dlopez@ugr.es
 % CIMCYC - University of granada
 % -------------------------------------------------------------------------
-%
-%  Compute ICA decomposition if needed:
+% Some changes to export to BIDS format made by:
+% María Ruiz and María del Pilar Sánchez
+% mariaruizromero@ugr.es, pilarsanpe@ugr.es
+% -------------------------------------------------------------------------
+% Compute ICA decomposition if needed:
 
 if cfg.ica.flag
     
     fprintf(['\n<strong> > Loading subject: ' subject.id '</strong>\n\n']);
     
     % Directory to load data:
-    load_dir = [cfg.datapath filesep 'derivatives' filesep ...
-        cfg.epochs.sdir filesep];
-    files = dir([load_dir subject.id '*.set']);
+    load_dir = [cfg.datapath filesep 'derivatives' filesep subject.id  ...
+         filesep 'eeg'];
+    files = dir([load_dir filesep subject.id '_' cfg.task '_' cfg.ica.source '_eeg' '.set']);
     file_name = files(1).name;
-    
+
     % Importa data:
     data = pop_loadset('filename',file_name,'filepath',load_dir);
     

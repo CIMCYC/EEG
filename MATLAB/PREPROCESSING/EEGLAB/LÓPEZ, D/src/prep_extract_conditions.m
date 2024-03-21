@@ -5,6 +5,10 @@ function report = prep_extract_conditions(cfg,data)
 % dlopez@ugr.es
 % CIMCYC - University of granada
 % -------------------------------------------------------------------------
+% Some changes to export to BIDS format made by:
+% María Ruiz and María del Pilar Sánchez
+% mariaruizromero@ugr.es, pilarsanpe@ugr.es
+% -------------------------------------------------------------------------
 % Note:
 %  Posible warning if your are re-epoching:
 %  Warning: event 308 out of data boundary
@@ -31,9 +35,16 @@ if cfg.conditions.flag
             
             % Save condition data:
             if cfg.conditions.save
-                save_dir = [cfg.conditions.sdir filesep ...
-                    cfg.conditions.names{i}];
-                save_subject_data(cfg,data_,save_dir);
+                sdir = [cfg.datapath filesep 'derivatives' filesep  ...
+                    data.subject.filename filesep 'conditions_eeg'];
+                fname = [data_.subject.filename '_' cfg.conditions.names{i}];
+                mkdir(sdir);
+                if strcmp(cfg.saveformat,'set') || strcmp(cfg.saveformat,'both')
+                    data_ = pop_saveset(data_, 'filename',fname,'filepath', sdir);                    
+                end
+                if strcmp(cfg.saveformat,'mat') || strcmp(cfg.saveformat,'both')    
+                    save([sdir filesep fname],'data_');
+                end
             end
             
         catch

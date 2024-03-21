@@ -5,16 +5,17 @@ function data = load_subject_data(cfg,subject)
 % dlopez@ugr.es
 % CIMCYC - University of granada
 % -------------------------------------------------------------------------
-%
-%  This function returns the eeglab data structure for the specified
-%  subject.
+% Some changes made by:
+% María Ruiz and María del Pilar Sánchez
+% mariaruizromero@ugr.es, pilarsanpe@ugr.es
+% -------------------------------------------------------------------------
+% This function returns the eeglab data structure for the specified
+% subject.
 
 fprintf(['\n<strong> > Loading subject: ' subject.id '</strong>\n\n']);
-%
 
 % Search the .vhdr file:
 file = dir([subject.raw_dir filesep 'sub*.vhdr']);
-cont=0;
 
 % If vhdr file is found, load subject data:
 if size(file,1)
@@ -23,8 +24,8 @@ if size(file,1)
     first_sample_to_read = 1;
     data = pop_loadbv(subject.raw_dir, file(1).name, first_sample_to_read,...
         cfg.chantoload);
-%
-elseif cont==0
+
+elseif isempty(file)
 
     % Search the .dap file:
     file=dir([subject.raw_dir filesep 'sub*.dap']);
@@ -39,19 +40,37 @@ elseif cont==0
 
     else
 
-    % Search .set file:
+        % Search .set file:
         file = dir([subject.raw_dir filesep 'sub*.set']);
+        subj=[subject.id '.set'];
+
+        if (size(file,1) && strcmp(file.name, subj))
     
         % If set file is found, load subject data:
-        if size(file,1)
+            if size(file,1)
 
-            % Load subject data:
-            data = pop_loadset('filename',file(1).name,...
-            'filepath',subject.raw_dir);
+                % Load subject data:
+                data = pop_loadset('filename',file(1).name,...
+                'filepath',subject.raw_dir);
+
+            end
 
         else
-            % Send warning:
-            exit([subject.id ' - File not found!']);
+
+            file = dir([subject.raw_dir filesep subject.id '_' cfg.task '_eeg.set']);
+
+            if size(file,1)
+
+                % Load subject data:
+                data = pop_loadset('filename',file(1).name,...
+                'filepath',subject.raw_dir);
+
+            else
+                % Send warning:
+                exit([subject.id ' - File not found!']);
+                
+            end
+
         end
     end
 end
