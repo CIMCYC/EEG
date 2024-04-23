@@ -1,0 +1,28 @@
+ecglabRR
+1) line 76:   'String',cd,...
+	% text edit para entrar com o nome do arquivo
+
+2) line 329: pb_salvarr... 'if ecg_sinal~=-1,','saveRR;',...      
+
+
+ecgfilt
+1) line 75:   'String',cd,...
+	% text edit para entrar com o nome do arquivo
+
+timefreq
+1) line 108
+%text edit para entrar com o nome do arquivo
+te_file=uicontrol('Style','edit',...
+   'String',cd,...
+
+2) line 122
+	'String','Open RR',...
+
+
+atfar_callbacks
+1) line 37
+      [RR,tk,normais,ebs_indices]=readRRmat(filename);
+
+2)
+
+
