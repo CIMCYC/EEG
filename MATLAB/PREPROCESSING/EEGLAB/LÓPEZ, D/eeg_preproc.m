@@ -38,10 +38,10 @@
 
 %% 1. Pre-ICA routine:
 
-clear; clc;
+clear all;
+clc;
 run config
-path(path,'src');
-
+path(path,'src')
 
 % Get the list of subjects to load:
 subject_list = get_subject_list(cfg);
@@ -123,7 +123,7 @@ for sub = 1 : length(subject_list)
     
 end
 
-% Generate reports:
+%% Generate reports:
 prep_reports(cfg,reports);
 
 

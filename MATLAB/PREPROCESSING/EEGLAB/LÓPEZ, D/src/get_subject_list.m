@@ -14,14 +14,29 @@ if isempty(cfg.subjects)
             folders(i).name filesep 'eeg'];
     end
     
+elseif  (strcmp(cfg.datapath, cfg.datapathraw))
+
+       for i = 1 : length(cfg.subjects)
+        subject_list(i).id = cfg.subjects{i};
+        subject_list(i).raw_dir = [cfg.datapath filesep ...
+            'sourcedata' filesep cfg.subjects{i} filesep 'eeg'];
+        subject_list(i).derivatives_dir = [ cfg.datapath filesep ...
+            'derivatives' filesep cfg.subjects{i} filesep 'eeg'];
+        subject_list(i).behav_dir = [ cfg.datapath filesep ...
+            'behavioral' filesep];
+       end
+
 else
     
-    for i = 1 : length(cfg.subjects)
+       for i = 1 : length(cfg.subjects)
         subject_list(i).id = cfg.subjects{i};
-        subject_list(i).dir = [ cfg.datapath filesep ...
+        subject_list(i).raw_dir = [cfg.datapath filesep ...
             cfg.subjects{i} filesep 'eeg'];
-    end
-    
+        subject_list(i).derivatives_dir = [cfg.datapath filesep 'derivatives' filesep ...
+           cfg.subjects{i} filesep 'eeg'];
+        subject_list(i).behav_dir = [cfg.datapath filesep ...
+            'behavioral' filesep];
+       end
 end
 
 end

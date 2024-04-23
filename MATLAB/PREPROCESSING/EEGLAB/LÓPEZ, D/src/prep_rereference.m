@@ -5,8 +5,12 @@ function data = prep_rereference(cfg,data)
 % dlopez@ugr.es
 % CIMCYC - University of granada
 % -------------------------------------------------------------------------
-%
 % Recover reference electrode manually:
+
+% Exclude bad channels:
+subject_idx = str2double(data.subject.id(end-2:end));
+interpolated_channels = cfg.interpole.channels{subject_idx};
+ignoredchannels = setdiff(cfg.ignoredchannels{subject_idx},interpolated_channels);
 
 if cfg.refelec.flag
     
@@ -27,7 +31,8 @@ end
 
 if cfg.reref.flag
     fprintf('\n<strong> > Computing re-reference...</strong>\n\n');
-    data = pop_reref(data,cfg.reref.chan,'refloc',struct(...
+    data = pop_reref(data,cfg.reref.chan,...
+        'refloc',struct(...
         'labels',{cfg.refelec.label},...
         'sph_radius',{cfg.refelec.sph_radius},...
         'sph_theta',{cfg.refelec.sph_theta},...
@@ -39,7 +44,8 @@ if cfg.reref.flag
         'Z',{cfg.refelec.Z},...
         'type',{cfg.refelec.type},...
         'ref',{''},...
-        'urchan',{[]},'datachan',{0}));
+        'urchan',{[]},'datachan',{0}),...
+        'exclude',ignoredchannels);
     
     % Save data if needed:
     if cfg.reref.save
