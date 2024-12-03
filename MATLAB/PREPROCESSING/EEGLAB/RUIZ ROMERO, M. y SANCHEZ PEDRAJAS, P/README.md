@@ -1,4 +1,4 @@
-# GENERAL EEG PRERPOCESSING
+# GENERAL EEG PREPROCESSING
 This repository provides a flexible framework for preprocessing routines for EEG signals in which you have to import your data in BIDS format, only it is necessary to choose the correct destination folder at the beginning of the config script.
 If your EEG data is not already in BIDS format, you can use the BIDS-MATLAB-EEG repository (https://github.com/CIMCYC/BIDS-MATLAB-EEG) to convert your raw EEG data. This ensures seamless compatibility with the preprocessing scripts in this repository.
 The preprocessing pipeline is highly customizable, allowing users to define the order of the preprocessing steps according to their specific needs. This flexibility is configured in the config.m file, where users can enable or disable steps such as filtering, epoching, Independent Component Analysis (ICA), and artifact rejection, and control the sequence of these operations.
