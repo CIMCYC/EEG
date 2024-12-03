@@ -277,7 +277,7 @@ end
 cfg.ica.flag = true;            % Enable/disable ICA decomposition
 cfg.ica.method = 'runica';      % ICA algorithm to use for decomposition.
 cfg.ica.extended = true;        % Recommended.
-cfg.ica.source='epoched';
+cfg.ica.source=step(4-1);
 cfg.ica.save = true;            % Save ICA weights.
 if (strcmp(cfg.datapath, cfg.datapathraw))
     cfg.ica.sdir = [cfg.task '_icaweights_eeg']; % Destination folder (not change).
