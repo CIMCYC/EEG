@@ -1,1 +1,0 @@
-mcc -x -B sgl -d e:\joao\ecglabmcc\temp temporalRR
